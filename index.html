@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>100 Things to Do Before You Die</title>
+    <meta
+      name="keywords"
+      content="100 Things, life, experience, Personal List"
+    />
+    <meta
+      name="description"
+      content="Check off each item you’ve completed and see your score!"
+    />
+    <style>
+      /* GLOBAL RESET & BASE STYLES */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Open Sans", Arial, sans-serif;
+        background: linear-gradient(to right, #ecf0f3, #ffffff);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      a {
+        color: #3b5998;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* HEADER / HERO SECTION */
+      header {
+        background: #4b79a1; /* fallback for older browsers */
+        background: linear-gradient(to bottom right, #283e51, #4b79a1);
+        color: #fff;
+        padding: 2em 1em;
+        text-align: center;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        margin-bottom: 1em;
+      }
+      header h1 {
+        font-size: 2.2em;
+        margin-bottom: 0.5em;
+        font-weight: 300;
+      }
+      header h2 {
+        margin-top: 0.2em;
+        font-weight: 400;
+        color: #dfe6e9;
+      }
+
+      /* MAIN CONTAINER */
+      .container {
+        max-width: 1200px;
+        width: 90%;
+        margin: 0 auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* INTRO PARAGRAPH */
+      .intro {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 2em;
+        margin: 1em 0;
+        text-align: center;
+        color: #333;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .intro p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+      }
+
+      /* CHECKLIST WRAPPER */
+      .checklist {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 2em;
+        width: 100%;
+        max-width: 800px;
+        margin: 1em 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .checklist h3 {
+        text-align: center;
+        margin-bottom: 1em;
+        font-size: 1.3em;
+        color: #333;
+      }
+      /* We can split the list into two columns on larger screens */
+      .checklist ol {
+        columns: 2; /* creates a 2-column layout for bigger screens */
+        column-gap: 2em;
+        list-style: none; /* remove default numbering (we'll use custom boxes) */
+      }
+      .checklist li {
+        margin: 0.6em 0;
+        break-inside: avoid;
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      /* CUSTOM CHECKBOXES */
+      .checklist input[type="checkbox"] {
+        display: none;
+      }
+      .checklist input[type="checkbox"] + label {
+        position: relative;
+        padding-left: 2.2em;
+        cursor: pointer;
+        line-height: 1.4em;
+        font-size: 1em;
+        color: #444;
+        transition: color 0.2s ease-in-out;
+      }
+      /* box */
+      .checklist input[type="checkbox"] + label::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.2em;
+        width: 1.3em;
+        height: 1.3em;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+        transition: background-color 0.2s ease-in-out,
+          border-color 0.2s ease-in-out;
+      }
+      /* checkmark */
+      .checklist input[type="checkbox"] + label::after {
+        content: "";
+        position: absolute;
+        left: 0.25em;
+        top: 0.55em;
+        width: 0.65em;
+        height: 0.35em;
+        border-left: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        transform: rotate(-45deg);
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+      }
+      /* When checked */
+      .checklist input[type="checkbox"]:checked + label::before {
+        border-color: #4b79a1;
+        background-color: #4b79a1;
+      }
+      .checklist input[type="checkbox"]:checked + label::after {
+        border-color: #fff;
+        opacity: 1;
+      }
+      /* Hover effect */
+      .checklist input[type="checkbox"] + label:hover::before {
+        border-color: #4b79a1;
+      }
+      .checklist input[type="checkbox"] + label:hover {
+        color: #111;
+      }
+
+      /* BUTTONS */
+      .button-container {
+        text-align: center;
+        margin: 2em 0 1em 0;
+      }
+      button {
+        margin: 0.5em;
+        padding: 0.8em 1.5em;
+        font-size: 1em;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        background: #4b79a1;
+        color: #fff;
+        transition: background 0.3s;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      }
+      button:hover {
+        background: #385c78;
+      }
+
+      /* SCORE / PROGRESS BAR */
+      #scoreOutput {
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-top: 1em;
+        color: #444;
+      }
+      .progress-bar {
+        margin: 1em auto 0 auto;
+        width: 90%;
+        max-width: 600px;
+        height: 20px;
+        background: #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(to right, #4b79a1, #283e51);
+        transition: width 0.4s ease-in-out;
+      }
+
+      /* FOOTER */
+      .footer {
+        text-align: center;
+        background-color: #f5f5f5;
+        padding: 1.5em;
+        color: #555;
+        font-size: 0.9em;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .footer p {
+        margin-bottom: 0.5em;
+      }
+
+      /* RESPONSIVE STYLES */
+      @media (max-width: 768px) {
+        .checklist ol {
+          columns: 1; /* fallback to single column on smaller screens */
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header>
+      <h1>How Many Have You Achieved?</h1>
+      <h2>100 Things to Do Before You Die</h2>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+      <!-- INTRO -->
+      <div class="intro">
+        <p>
+          Welcome! Check each box below for every item you’ve accomplished. As
+          soon as you check or uncheck, you’ll see your updated progress below.
+          <br />If you need more inspiration, visit
+          <a href="http://www.bucketquiz.com" target="_blank"
+            >www.bucketquiz.com</a
+          >.
+        </p>
+      </div>
+
+      <!-- CHECKLIST -->
+      <div class="checklist" id="checklist">
+        <h3>My Bucket List</h3>
+        <ol>
+          <!-- 1-10 -->
+          <li>
+            <input type="checkbox" id="q1" /><label for="q1"
+              >Attend at least one major sporting event: the Super Bowl, the
+              Olympics, the U.S. Open.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q2" /><label for="q2"
+              >Throw a huge party and invite every one of your friends.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q3" /><label for="q3"
+              >Swim with a dolphin.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q4" /><label for="q4">Skydive.</label>
+          </li>
+          <li>
+            <input type="checkbox" id="q5" /><label for="q5"
+              >Have your portrait painted.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q6" /><label for="q6"
+              >Learn to speak a foreign language and make sure you use
+              it.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q7" /><label for="q7"
+              >Go skinny-dipping at midnight in the South of France.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q8" /><label for="q8"
+              >Watch the launch of the space shuttle.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q9" /><label for="q9"
+              >Spend a whole day eating junk food without feeling guilty.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q10" /><label for="q10"
+              >Be an extra in a film.</label
+            >
+          </li>
+
+          <!-- 11-20 -->
+          <li>
+            <input type="checkbox" id="q11" /><label for="q11"
+              >Tell someone the story of your life, sparing no details.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q12" /><label for="q12"
+              >Make love on a forest floor.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q13" /><label for="q13"
+              >Make love on a train.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q14" /><label for="q14"
+              >Learn to rollerblade.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q15" /><label for="q15"
+              >Own a room with a view.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q16" /><label for="q16"
+              >Brew your own beer.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q17" /><label for="q17"
+              >Learn how to take a compliment.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q18" /><label for="q18"
+              >Buy a round-the-world air ticket and a rucksack, and run
+              away.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q19" /><label for="q19"
+              >Grow a beard and leave it for at least a month.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q20" /><label for="q20"
+              >Give your mother a dozen red roses and tell her you love
+              her.</label
+            >
+          </li>
+
+          <!-- 21-30 -->
+          <li>
+            <input type="checkbox" id="q21" /><label for="q21"
+              >Be a member of the audience in a TV show.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q22" /><label for="q22"
+              >Put your name down to be a passenger on the first tourist shuttle
+              to the moon.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q23" /><label for="q23"
+              >Send a message in a bottle.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q24" /><label for="q24"
+              >Ride a camel into the desert.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q25" /><label for="q25"
+              >Get to know your neighbors.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q26" /><label for="q26"
+              >Plant a tree.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q27" /><label for="q27"
+              >Learn not to say yes when you really mean no.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q28" /><label for="q28"
+              >Write a fan letter to your all-time favorite hero or
+              heroine.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q29" /><label for="q29"
+              >Visit the Senate and the House of Representatives to see how
+              Congress really works.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q30" /><label for="q30"
+              >Learn to ballroom dance <em>properly</em>.</label
+            >
+          </li>
+
+          <!-- 31-40 -->
+          <li>
+            <input type="checkbox" id="q31" /><label for="q31"
+              >Eat jellied eels from a stall in London.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q32" /><label for="q32"
+              >Be the boss.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q33" /><label for="q33"
+              >Fall deeply in love – helplessly and unconditionally.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q34" /><label for="q34"
+              >Ride the Trans-Siberian Express across Asia.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q35" /><label for="q35"
+              >Sit on a jury.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q36" /><label for="q36"
+              >Write the novel you know you have inside you.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q37" /><label for="q37"
+              >Go to Walden Pond and read Thoreau while drifting in a
+              canoe.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q38" /><label for="q38"
+              >Stay out all night dancing and go to work the next day without
+              having gone home.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q39" /><label for="q39"
+              >Drink beer at Oktoberfest in Munich.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q40" /><label for="q40"
+              >Be someone's mentor.</label
+            >
+          </li>
+
+          <!-- 41-50 -->
+          <li>
+            <input type="checkbox" id="q41" /><label for="q41"
+              >Shower in a waterfall.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q42" /><label for="q42"
+              >Ask for a raise.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q43" /><label for="q43"
+              >Learn to play a musical instrument with some degree of
+              skill.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q44" /><label for="q44"
+              >Teach someone illiterate to read.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q45" /><label for="q45"
+              >Be one of the first to take a flight on the new Airbus
+              A380.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q46" /><label for="q46"
+              >Spend a night in a haunted house – by yourself.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q47" /><label for="q47"
+              >Write down your personal mission statement and revise it from
+              time to time.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q48" /><label for="q48"
+              >See a lunar eclipse.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q49" /><label for="q49"
+              >Spend New Year's in an exotic location.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q50" /><label for="q50"
+              >Get passionate about a cause and spend time helping it.</label
+            >
+          </li>
+
+          <!-- 51-60 -->
+          <li>
+            <input type="checkbox" id="q51" /><label for="q51"
+              >Experience weightlessness.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q52" /><label for="q52"
+              >Sing a great song in front of an audience.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q53" /><label for="q53"
+              >Ask someone you've only just met to go on a date.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q54" /><label for="q54"
+              >Drive across America from coast to coast.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q55" /><label for="q55"
+              >Make a complete and utter fool of yourself.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q56" /><label for="q56"
+              >Own one very expensive but absolutely wonderful business
+              suit.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q57" /><label for="q57"
+              >Write your will.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q58" /><label for="q58"
+              >Sleep under the stars.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q59" /><label for="q59"
+              >Take a ride on the highest roller coaster in the country.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q60" /><label for="q60"
+              >Learn how to complain effectively – and do it!</label
+            >
+          </li>
+
+          <!-- 61-70 -->
+          <li>
+            <input type="checkbox" id="q61" /><label for="q61"
+              >Go wild in Rio during Carnival.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q62" /><label for="q62"
+              >Spend a whole day reading a great novel.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q63" /><label for="q63"
+              >Forgive your parents.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q64" /><label for="q64"
+              >Learn to juggle with three balls.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q65" /><label for="q65"
+              >Drive the Autobahn.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q66" /><label for="q66"
+              >Find a job you love.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q67" /><label for="q67"
+              >Spend Christmas on the beach drinking piña coladas.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q68" /><label for="q68"
+              >Overcome your fear of failure.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q69" /><label for="q69"
+              >Raft through the Grand Canyon.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q70" /><label for="q70"
+              >Donate money and put your name on something: a college
+              scholarship, a bench in the park.</label
+            >
+          </li>
+
+          <!-- 71-80 -->
+          <li>
+            <input type="checkbox" id="q71" /><label for="q71"
+              >Buy your own house and make it exactly what you want.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q72" /><label for="q72"
+              >Grow a garden.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q73" /><label for="q73"
+              >Spend three months getting your body into optimum shape.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q74" /><label for="q74"
+              >Drive a convertible with the top down and music blaring.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q75" /><label for="q75"
+              >Accept yourself for who you are.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q76" /><label for="q76"
+              >Learn to use a microphone and give a speech in public.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q77" /><label for="q77"
+              >Scuba dive off Australia's Great Barrier Reef.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q78" /><label for="q78"
+              >Go up in a hot-air balloon.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q79" /><label for="q79"
+              >Attend one really huge rock concert.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q80" /><label for="q80"
+              >Kiss someone you've just met on a blind date.</label
+            >
+          </li>
+
+          <!-- 81-90 -->
+          <li>
+            <input type="checkbox" id="q81" /><label for="q81"
+              >Be able to handle: your tax forms, Jehovah's Witnesses, your
+              banker, telephone solicitors.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q82" /><label for="q82"
+              >Give to a charity – <em>anonymously</em>.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q83" /><label for="q83"
+              >Lose more money than you can afford at roulette in Vegas.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q84" /><label for="q84"
+              >Let someone feed you peeled, seedless grapes.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q85" /><label for="q85"
+              >Kiss the Blarney Stone and develop the gift of gab.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q86" /><label for="q86"
+              >Fart in a crowded space.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q87" /><label for="q87"
+              >Make love on the kitchen floor.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q88" /><label for="q88"
+              >Go deep-sea fishing and eat your catch.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q89" /><label for="q89"
+              >Create your own web site.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q90" /><label for="q90"
+              >Visit the Holy Land.</label
+            >
+          </li>
+
+          <!-- 91-100 -->
+          <li>
+            <input type="checkbox" id="q91" /><label for="q91"
+              >Make yourself spend a half-day at a concentration camp and swear
+              never to forget.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q92" /><label for="q92"
+              >Run to the top of the Statue of Liberty.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q93" /><label for="q93"
+              >Create your Family Tree.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q94" /><label for="q94"
+              >Catch a ball in the stands of a major league baseball
+              stadium.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q95" /><label for="q95"
+              >Make a hole-in-one.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q96" /><label for="q96"
+              >Ski a double-black diamond run.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q97" /><label for="q97"
+              >Learn to bartend.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q98" /><label for="q98"
+              >Run a marathon.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q99" /><label for="q99"
+              >Look into your child's eyes, see yourself, and smile.</label
+            >
+          </li>
+          <li>
+            <input type="checkbox" id="q100" /><label for="q100"
+              >Reflect on your greatest weakness, and realize how it is your
+              greatest strength.</label
+            >
+          </li>
+        </ol>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="button-container">
+        <button onclick="resetAll()">Reset All</button>
+        <button onclick="goToCertificate()">Get Certificate</button>
+      </div>
+
+      <!-- SCORE / PROGRESS BAR -->
+      <div id="scoreOutput">You’ve completed 0 out of 100!</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>
+        Have a suggestion to add to this list?
+        <a href="https://brass612.tripod.com/email.html" target="_blank"
+          >Share it here</a
+        >.
+      </p>
+      <p>
+        The best ideas will be included! |
+        <a href="https://brass612.tripod.com/best.html" target="_blank"
+          >Check out our favorites</a
+        >.
+      </p>
+    </div>
+
+    <script>
+      const checklistContainer = document.getElementById("checklist");
+      const scoreOutput = document.getElementById("scoreOutput");
+      const progressFill = document.getElementById("progressFill");
+
+      // Update score whenever a checkbox changes
+      checklistContainer.addEventListener("change", updateScore);
+
+      // Initial update in case any pre-checked (rare in some browsers)
+      updateScore();
+
+      function updateScore() {
+        const allChecks = checklistContainer.querySelectorAll(
+          'input[type="checkbox"]'
+        );
+        let totalChecked = 0;
+        allChecks.forEach((chk) => {
+          if (chk.checked) totalChecked++;
+        });
+        scoreOutput.textContent = `You’ve completed ${totalChecked} out of 100!`;
+
+        // Update progress bar
+        const percentage = (totalChecked / 100) * 100;
+        progressFill.style.width = percentage + "%";
+      }
+
+      function resetAll() {
+        const allChecks = checklistContainer.querySelectorAll(
+          'input[type="checkbox"]'
+        );
+        allChecks.forEach((chk) => (chk.checked = false));
+        updateScore();
+      }
+
+      function goToCertificate() {
+        const allChecks = checklistContainer.querySelectorAll(
+          'input[type="checkbox"]'
+        );
+        let totalChecked = 0;
+        allChecks.forEach((chk) => {
+          if (chk.checked) totalChecked++;
+        });
+        // Redirect to certificate.html, passing 'score' in the query string
+        window.location.href = `certificate.html?score=${totalChecked}`;
+      }
+    </script>
+  </body>
+</html>
